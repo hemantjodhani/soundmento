@@ -12,25 +12,67 @@ if ( !defined('ABSPATH') ) {
 }
 
 define('SOUNDMENTO_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('SOUNDMENTO_PLUGIN_URL', plugin_dir_url(__FILE__));
 
+class Soundmento {
 
-function soundmento_enqueue_scripts() {
-    wp_enqueue_script( 'soundmento-script', plugins_url('assets/script.js', __FILE__), array('jquery'), rand(), true );
-    wp_enqueue_style( 'soundmento-style', plugins_url('assets/style.css', __FILE__), array(), rand() );
-}
+    /**
+     * Singleton instance
+     */
+    private static $instance = null;
 
-add_action('wp_enqueue_scripts', 'soundmento_enqueue_scripts');
-
-function soundmento_register_widgets() {
-    
-    if ( ! did_action( 'elementor/loaded' ) ) {
-        return;
+    /**
+     * Get instance
+     */
+    public static function get_instance() {
+        if ( self::$instance === null ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
-    // Include the widget file
-    require_once( __DIR__ . '/widgets/soundmento-widget.php' );
+    /**
+     * Constructor
+     */
+    private function __construct() {
+        // Register hooks directly here
+        add_action('wp_enqueue_scripts', [ $this, 'enqueue_assets' ]);
+        add_action('elementor/widgets/register', [ $this, 'register_elementor_widgets' ]);
+    }
 
-    // Register the widget
-    \Elementor\Plugin::instance()->widgets_manager->register( new \Soundmento_Widget() );
+    /**
+     * Handle enqueuing all frontend assets
+     */
+    public function enqueue_assets() {
+        wp_enqueue_script(
+            'soundmento-script',
+            SOUNDMENTO_PLUGIN_URL . 'assets/script.js',
+            array('jquery'),
+            time(),
+            true
+        );
+
+        wp_enqueue_style(
+            'soundmento-style',
+            SOUNDMENTO_PLUGIN_URL . 'assets/style.css',
+            array(),
+            time()
+        );
+    }
+
+    /**
+     * Register Elementor widgets
+     */
+    public function register_elementor_widgets() {
+        if ( ! did_action( 'elementor/loaded' ) ) {
+            return;
+        }
+
+        require_once SOUNDMENTO_PLUGIN_PATH . 'widgets/soundmento-widget.php';
+
+        \Elementor\Plugin::instance()->widgets_manager->register( new \Soundmento_Widget() );
+    }
 }
-add_action( 'elementor/widgets/register', 'soundmento_register_widgets' );
+
+// Initialize the plugin
+Soundmento::get_instance();
