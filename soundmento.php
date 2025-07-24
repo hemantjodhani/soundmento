@@ -36,7 +36,7 @@ class Soundmento {
 	 *
 	 * @return self
 	 */
-	public static function get_instance() {
+	public static function som_get_instance() {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -47,14 +47,14 @@ class Soundmento {
 	 * Constructor.
 	 */
 	private function __construct() {
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-    	add_action( 'elementor/widgets/register', array( $this, 'register_elementor_widgets' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'som_enqueue_assets' ) );
+		add_action( 'elementor/widgets/register', array( $this, 'som_register_elementor_widgets' ) );
 	}
 
 	/**
 	 * Enqueue frontend JS and CSS.
 	 */
-	public function enqueue_assets() {
+	public function som_enqueue_assets() {
 		wp_enqueue_script(
 			'soundmento-script',
 			SOUNDMENTO_PLUGIN_URL . 'assets/script.js',
@@ -74,7 +74,7 @@ class Soundmento {
 	/**
 	 * Register Elementor widgets.
 	 */
-	public function register_elementor_widgets() {
+	public function som_register_elementor_widgets() {
 		if ( ! did_action( 'elementor/loaded' ) ) {
 			return;
 		}
@@ -85,4 +85,4 @@ class Soundmento {
 	}
 }
 
-Soundmento::get_instance();
+Soundmento::som_get_instance();
