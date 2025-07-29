@@ -23,7 +23,6 @@
 
 .som-player {
     width: 100%;
-    /* max-width: 30rem; */
     height: auto;
     max-height: 35rem;
     aspect-ratio: 30/35;
@@ -59,7 +58,6 @@
 }
 
 .som-player__header.som-open-header {
-    /* height: 100%; */
     padding-left: 0;
     padding-right: 0;
     box-shadow: unset;
@@ -111,7 +109,6 @@
 .som-text-wrap {
     display: block;
     white-space: pre;
-    width: fit-content;
     animation: text-wrap var(--duration-text-wrap) infinite;
 }
 
