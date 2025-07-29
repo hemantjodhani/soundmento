@@ -34,7 +34,7 @@ class Soundmento_Widget extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Soundmento Widget', 'soundmento' );
+		return __( 'Soundmento', 'soundmento' );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Soundmento_Widget extends Widget_Base {
 						'som_list_item_text'   => __( 'Item #1', 'soundmento' ),
 						'som_list_item_artist' => __( 'Unknown Artist', 'soundmento' ),
 						'som_list_item_image'  => array( 'url' => \Elementor\Utils::get_placeholder_image_src() ),
-						'som_list_item_audio'  => array(),
+						'som_list_item_audio'  => '',
 					),
 				),
 				'title_field' => '{{{ som_list_item_text }}}',
