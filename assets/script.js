@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     const player = document.querySelector(".som-player");
+    if (!player) return;
     const playerHeader = player.querySelector(".som-player__header");
     const playerControls = player.querySelector(".som-player__controls");
     const playerPlayList = player.querySelectorAll(".som-player__song");

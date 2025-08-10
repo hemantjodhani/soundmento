@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Soundmento
- * Description: A modern Elementor widget for musicians and podcasters to display audio tracks with titles, artists, artwork, and playback controls.
+ * Description: Modern Elementor widget for music and podcast playlists.
  * Version: 1.0.0
  * Author: Hemant Jodhani
  * License: GPL2

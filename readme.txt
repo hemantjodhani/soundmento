@@ -1,14 +1,14 @@
 === Soundmento ===
 Contributors: hemantjodhani  
 Tags: elementor, audio player, music, podcast, audio widget  
-Requires at least: 5.0  
+Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2  
 Stable tag: 1.0.0  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-A modern Elementor widget for musicians and podcasters to display stylish audio tracks with titles, artists, artwork, and playback controls.
+Modern Elementor widget for music and podcast playlists.
 
 == Description ==
 
@@ -44,6 +44,13 @@ The plugin uses the `getID3` library to analyze uploaded audio files and extract
 
 = What types of audio files are supported? =  
 Any audio file supported by modern browsers (e.g., MP3, OGG, WAV) and uploaded via the WordPress media library.
+
+== Screenshots ==
+
+1. Frontend view of the Soundmento audio player with playlist, artwork, and playback controls. 
+2. Beautiful open header layout with an audio cover image.
+3. Search for "Soundmento," "playlist," or a related keyword to add the Soundmento widget in the Elementor Page Builder.
+4. Soundmento widget in Elementor editor with audio tracks added via repeater.
 
 == Changelog ==
 

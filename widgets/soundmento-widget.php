@@ -56,6 +56,25 @@ class Soundmento_Widget extends Widget_Base {
 	}
 
 	/**
+	 * Get widget keywords for search.
+	 *
+	 * @return array List of widget keywords.
+	 */
+	public function get_keywords() {
+		return array(
+			'soundmento',
+			'playlist',
+			'music',
+			'audio',
+			'songs',
+			'tracks',
+			'media',
+			'podcast',
+			'player',
+		);
+	}
+
+	/**
 	 * Register widget controls.
 	 */
 	protected function register_controls() {
