@@ -5,14 +5,13 @@
  * @package Soundmento
  */
 
-require_once SOUNDMENTO_PLUGIN_PATH . 'vendor/autoload.php';
-use Elementor\Widget_Base;
-use Elementor\Controls_Manager;
-use Elementor\Repeater;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
+use Elementor\Repeater;
 
 /**
  * Soundmento Widget Class
@@ -149,6 +148,47 @@ class Soundmento_Widget extends Widget_Base {
 	}
 
 	/**
+	 * Get audio duration using WordPress core functionality
+	 *
+	 * @param string $file_url URL of the audio file.
+	 * @return string Duration in MM:SS format or empty string.
+	 */
+	private function get_audio_duration( $file_url ) {
+		if ( empty( $file_url ) ) {
+			return '';
+		}
+		$attachment_id = attachment_url_to_postid( $file_url );
+		if ( $attachment_id ) {
+			$metadata = wp_get_attachment_metadata( $attachment_id );
+			if ( isset( $metadata['length_formatted'] ) ) {
+				return $metadata['length_formatted'];
+			}
+			if ( isset( $metadata['length'] ) ) {
+				return gmdate( 'i:s', $metadata['length'] );
+			}
+		}
+
+		if ( ! class_exists( 'getID3' ) ) {
+			if ( file_exists( ABSPATH . WPINC . '/ID3/getid3.php' ) ) {
+				require_once ABSPATH . WPINC . '/ID3/getid3.php';
+			}
+		}
+
+		if ( class_exists( 'getID3' ) ) {
+			$file_path = str_replace( home_url(), ABSPATH, $file_url );
+			if ( file_exists( $file_path ) ) {
+				$getid3   = new getID3();
+				$fileinfo = $getid3->analyze( $file_path );
+				if ( isset( $fileinfo['playtime_string'] ) ) {
+					return $fileinfo['playtime_string'];
+				}
+			}
+		}
+
+		return '';
+	}
+
+	/**
 	 * Render widget output on the frontend.
 	 */
 	protected function render() {
@@ -198,12 +238,9 @@ class Soundmento_Widget extends Widget_Base {
 									<span class="som-player__title"><?php echo esc_html( $item['som_list_item_artist'] ); ?></span>
 									<?php
 									if ( ! empty( $item['som_list_item_audio']['url'] ) ) :
-										$file_url  = $item['som_list_item_audio']['url'];
-										$file_path = str_replace( home_url(), ABSPATH, $file_url );
-										if ( file_exists( $file_path ) ) {
-											$getid3   = new getID3();
-											$fileinfo = $getid3->analyze( $file_path );
-											echo '<span class="som-player__song-time mx-5">' . esc_html( $fileinfo['playtime_string'] ) . '</span>';
+										$duration = $this->get_audio_duration( $item['som_list_item_audio']['url'] );
+										if ( ! empty( $duration ) ) {
+											echo '<span class="som-player__song-time mx-5">' . esc_html( $duration ) . '</span>';
 										}
 									?>
 								</span>
